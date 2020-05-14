@@ -1,0 +1,41 @@
+{
+    "name": "agiledrop/agiledrop",
+    "description": "Custom theme based on Agiledrop site.",
+    "keywords": ["wordpress", "theme", "agiledrop"],
+    "homepage": "https://www.agiledrop.si/",
+    "license": "MIT",
+    "authors": [{
+        "name": "Agiledrop",
+        "email": "info@agiledrop.com",
+        "homepage": "https://agiledrop.com"
+    }],
+    "minimum-stability": "dev",
+    "prefer-stable": true,
+    "type": "project",
+    "repositories":[
+        {
+            "type":"vcs",
+            "url":"git@bitbucket.org:agiledrop/wordpress-ad-theme.git"
+        },
+        {
+            "type":"vcs",
+            "url":"git@bitbucket.org:zkoracin/agiledrop-form.git"
+        }
+    ],
+    "require": {
+        "php": ">=7.1",
+        "johnpbloch/wordpress-core-installer": "*",
+        "johnpbloch/wordpress": "*",
+        "composer/installers": "*",
+        "agiledrop/wordpress-ad-theme": "dev-dev",
+        "agiledrop/agiledrop-form": "*"
+    },
+    "extra": {
+        "wordpress-install-dir": "wp",
+        "installer-paths": {
+            "content/plugins/{$name}": ["type:wordpress-plugin"],
+            "content/themes/{$name}": ["type:wordpress-theme"],
+            "content/mu-plugins/{$name}": ["type:wordpress-muplugin"]
+        }
+    }
+}
