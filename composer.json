@@ -20,6 +20,10 @@
         {
             "type":"vcs",
             "url":"git@bitbucket.org:zkoracin/agiledrop-form.git"
+        },
+        {
+          "type":"composer",
+          "url":"https://wpackagist.org"
         }
     ],
     "require": {
@@ -28,7 +32,9 @@
         "johnpbloch/wordpress": "*",
         "composer/installers": "*",
         "agiledrop/wordpress-ad-theme": "dev-dev",
-        "agiledrop/agiledrop-form": "*"
+        "agiledrop/agiledrop-form": "*",
+        "wp-cli/wp-cli": "^2.4",
+        "wpackagist-plugin/wordpress-seo": "^14.1"
     },
     "extra": {
         "wordpress-install-dir": "wp",
