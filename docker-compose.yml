@@ -1,0 +1,86 @@
+version: '3'
+
+volumes:
+  mysql:
+
+services:
+  traefik:
+    image: traefik:1.6.6-alpine
+    container_name: traefik
+    command: --docker
+    ports:
+      - '80:80'
+      - '443:443'
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - ./vendor/teamdeeson/docker-proxy/traefik.toml:/traefik.toml
+      - ./.certs:/certs
+    networks:
+      - agiledrop
+    labels:
+      - 'traefik.frontend.rule=Host:monitor.localhost'
+      - 'traefik.port=8080'
+
+  web:
+    build: docker/web
+    container_name: ${PROJECT_NAME}_web
+    restart: unless-stopped
+    volumes:
+      - ./:/var/www:cached
+    labels:
+      - "traefik.frontend.rule=Host:${PROJECT_HOSTNAME},www.${PROJECT_HOSTNAME}"
+      - "traefik.docker.network=agiledrop"
+    networks:
+      - agiledrop
+      - default
+    env_file:
+      - .env
+
+  mysql:
+    image: mysql:5.7
+    container_name: ${PROJECT_NAME}_mysql
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: ${WP_DB_PASS}
+      MYSQL_DATABASE: ${WP_DB_NAME}
+      MYSQL_USER: ${WP_DB_USER}
+      MYSQL_PASSWORD: ${WP_DB_PASS}
+    command: ['mysqld', '--character-set-server=${WP_DB_CHARSET}', '--collation-server=${WP_DB_COLLATE}']
+    ports:
+      - "${WP_DB_PORT}:3306"
+    volumes:
+      - mysql:/var/lib/mysql:cached
+    networks:
+      - default
+
+  phpmyadmin:
+    image: nazarpc/phpmyadmin
+    restart: unless-stopped
+    container_name: ${PROJECT_NAME}_phpmyadmin
+    labels:
+      - "traefik.frontend.rule=Host:pma.${PROJECT_HOSTNAME}"
+      - "traefik.docker.network=agiledrop"
+    environment:
+      UPLOAD_SIZE: 64M
+    networks:
+      - agiledrop
+      - default
+
+  mailhog:
+    image: mailhog/mailhog
+    restart: unless-stopped
+    container_name: ${PROJECT_NAME}_mailhog
+    labels:
+      - "traefik.frontend.rule=Host:mailhog.${PROJECT_HOSTNAME}"
+      - "traefik.port=8025"
+      - "traefik.docker.network=agiledrop"
+    ports:
+      - "1025:1025"
+    networks:
+      - agiledrop
+      - default
+
+networks:
+  default:
+  agiledrop:
+    external: true
