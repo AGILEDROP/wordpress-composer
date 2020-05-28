@@ -3,6 +3,8 @@
 script_path=$(dirname $0)
 cd ${script_path}
 
+composer install
+
 if [[ ! -e ./.certs ]]; then
   mkdir ./.certs
 fi

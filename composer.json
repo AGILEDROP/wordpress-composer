@@ -20,16 +20,21 @@
   "type": "project",
   "repositories": [
     {
+      "type": "composer",
+      "url": "https://packagist.org"
+    },
+    { "packagist": false },
+    {
+      "type": "composer",
+      "url": "https://wpackagist.org"
+    },
+    {
       "type": "vcs",
       "url": "git@bitbucket.org:agiledrop/wordpress-ad-theme.git"
     },
     {
       "type": "vcs",
       "url": "git@bitbucket.org:zkoracin/agiledrop-form.git"
-    },
-    {
-      "type": "composer",
-      "url": "https://wpackagist.org"
     },
     {
       "type": "package",
@@ -46,13 +51,12 @@
   ],
   "require": {
     "php": ">=7.1",
-    "johnpbloch/wordpress-core-installer": "*",
-    "johnpbloch/wordpress": "*",
-    "composer/installers": "*",
-    "agiledrop/wordpress-ad-theme": "dev-dev",
-    "agiledrop/agiledrop-form": "dev-master",
+    "johnpbloch/wordpress": "^5.4",
+    "composer/installers": "^1.9",
     "wp-cli/wp-cli-bundle": "^2.4",
-    "wpackagist-plugin/wordpress-seo": "^14.1"
+    "wpackagist-plugin/wordpress-seo": "^14.1",
+    "agiledrop/wordpress-ad-theme": "dev-dev",
+    "agiledrop/agiledrop-form": "dev-master"
   },
   "require-dev": {
     "teamdeeson/docker-proxy": "^1.0"
@@ -60,13 +64,13 @@
   "extra": {
     "wordpress-install-dir": "wp",
     "installer-paths": {
-      "wp/wp-content/plugins/{$name}": [
+      "content/plugins/{$name}": [
         "type:wordpress-plugin"
       ],
-      "wp/wp-content/themes/{$name}": [
+      "content/themes/{$name}": [
         "type:wordpress-theme"
       ],
-      "wp/wp-content/mu-plugins/{$name}": [
+      "content/mu-plugins/{$name}": [
         "type:wordpress-muplugin"
       ]
     }

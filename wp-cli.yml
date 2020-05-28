@@ -6,10 +6,8 @@ color: true
 # Subcommand defaults (e.g. `wp config create`)
 config create:
   extra-php: |
-    define( 'WP_CONTENT_DIR', dirname(__FILE__) . '/wp-content' );
-    define( 'WP_CONTENT_URL', 'https://' . $_ENV['PROJECT_HOSTNAME'] . '/wp-content' );
     if (strpos($_SERVER['HTTP_X_FORWARDED_PROTO'], 'https') !== false) {
-        $_SERVER['HTTPS']='on';
+        $_SERVER['HTTPS'] = 'on';
     }
 
 core install:
