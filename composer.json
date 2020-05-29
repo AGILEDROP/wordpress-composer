@@ -74,5 +74,13 @@
         "type:wordpress-muplugin"
       ]
     }
+  },
+  "scripts": {
+    "pre-install-cmd": [
+      "bash beforeCopy.sh"
+    ],
+    "post-install-cmd": [
+      "bash afterCopy.sh"
+    ]
   }
 }
