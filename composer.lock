@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "cb59b33151b34e3e43e35ad4c6891c67",
+    "content-hash": "cf5078540c8de633020296dd8cbb14ef",
     "packages": [
         {
             "name": "agiledrop/agiledrop-form",

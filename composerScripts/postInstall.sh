@@ -1,9 +1,9 @@
 #!/bin/bash
 
-contentPlugins=()
-for d in $(ls -d content/plugins/*)
+contribPlugins=()
+for d in $(ls -d contrib/plugins/*)
 do
-  contentPlugins+=("${d//content\/plugins\/}")
+  contribPlugins+=("${d//contrib\/plugins\/}")
 done
 
 corePlugins=()
@@ -12,11 +12,11 @@ do
   corePlugins+=("${d//wp\/wp-content\/plugins\/}")
 done
 
-for plugin in "${contentPlugins[@]}"
+for plugin in "${contribPlugins[@]}"
 do
   dir="temp/plugins/${plugin}"
   if [ ! -d "$dir" ]; then
-    cp -avr content/plugins/${plugin} temp/plugins/
+    cp -avr contrib/plugins/${plugin} temp/plugins/
   fi
 done
 
@@ -30,10 +30,10 @@ done
 
 cp -avr temp/plugins/* wp/wp-content/plugins/
 
-contentThemes=()
-for d in $(ls -d content/themes/*)
+contribThemes=()
+for d in $(ls -d contrib/themes/*)
 do
-  contentThemes+=("${d//content\/themes\/}")
+  contribThemes+=("${d//contrib\/themes\/}")
 done
 
 coreThemes=()

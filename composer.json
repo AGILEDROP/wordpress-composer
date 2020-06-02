@@ -63,29 +63,32 @@
   "extra": {
     "wordpress-install-dir": "wp",
     "installer-paths": {
-      "content/plugins/{$name}": [
+      "contrib/plugins/{$name}": [
         "type:wordpress-plugin"
       ],
-      "content/themes/{$name}": [
+      "contrib/themes/{$name}": [
         "type:wordpress-theme"
       ],
-      "content/mu-plugins/{$name}": [
+      "contrib/mu-plugins/{$name}": [
         "type:wordpress-muplugin"
       ]
     }
   },
   "scripts": {
     "pre-package-install": [
-      "bash preInstall.sh"
+      "bash composerScripts/preInstall.sh"
     ],
     "post-package-install": [
-      "bash postInstall.sh"
+      "bash composerScripts/postInstall.sh"
     ],
     "pre-package-uninstall": [
-      "bash preUninstall.sh"
+      "bash composerScripts/preUninstall.sh"
     ],
     "post-package-uninstall": [
-      "bash postUninstall.sh"
+      "bash composerScripts/postUninstall.sh"
+    ],
+    "watch": [
+      "bash composerScripts/watchChanges.sh"
     ]
   }
 }

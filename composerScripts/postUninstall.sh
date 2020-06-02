@@ -6,16 +6,16 @@ do
   tempPlugins+=("${d//temp\/plugins\/}")
 done
 
-contentPlugins=()
-for d in $(ls -d content/plugins/*)
+contribPlugins=()
+for d in $(ls -d contrib/plugins/*)
 do
-  contentPlugins+=("${d//content\/plugins\/}")
+  contribPlugins+=("${d//contrib\/plugins\/}")
 done
 
 
 for deletePlugin in "${tempPlugins[@]}"
 do
-  if [[ ! "${contentPlugins[@]}" =~ "${deletePlugin}" ]]; then
+  if [[ ! "${contribPlugins[@]}" =~ "${deletePlugin}" ]]; then
     dir="wp/wp-content/plugins/${deletePlugin}"
     rm -rf ${dir}
   fi
@@ -27,15 +27,15 @@ do
   tempThemes+=("${d//temp\/themes\/}")
 done
 
-contentThemes=()
-for d in $(ls -d content/themes/*)
+contribThemes=()
+for d in $(ls -d contrib/themes/*)
 do
-  contentThemes+=("${d//content\/themes\/}")
+  contribThemes+=("${d//contrib\/themes\/}")
 done
 
 for deleteTheme in "${tempThemes[@]}"
 do
-  if [[ ! "${contentThemes[@]}" =~ "${deleteTheme}" ]]; then
+  if [[ ! "${contribThemes[@]}" =~ "${deleteTheme}" ]]; then
     dir="wp/wp-content/themes/${deleteTheme}"
     rm -rf ${dir}
   fi

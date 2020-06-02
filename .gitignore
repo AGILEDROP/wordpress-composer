@@ -7,8 +7,8 @@ node_modules/
 vendor/
 
 # ignore composer installed themes and plugins
-content/plugins/
-content/themes/
+custom/
+contrib/
 
 # ignore log files and databases
 *.log
