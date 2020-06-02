@@ -54,7 +54,6 @@
     "johnpbloch/wordpress": "^5.4",
     "composer/installers": "^1.9",
     "wp-cli/wp-cli-bundle": "^2.4",
-    "wpackagist-plugin/wordpress-seo": "^14.1",
     "agiledrop/wordpress-ad-theme": "dev-dev",
     "agiledrop/agiledrop-form": "dev-master"
   },
@@ -76,11 +75,17 @@
     }
   },
   "scripts": {
-    "pre-install-cmd": [
-      "bash beforeCopy.sh"
+    "pre-package-install": [
+      "bash preInstall.sh"
     ],
-    "post-install-cmd": [
-      "bash afterCopy.sh"
+    "post-package-install": [
+      "bash postInstall.sh"
+    ],
+    "pre-package-uninstall": [
+      "bash preUninstall.sh"
+    ],
+    "post-package-uninstall": [
+      "bash postUninstall.sh"
     ]
   }
 }
