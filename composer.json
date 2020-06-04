@@ -55,7 +55,8 @@
     "composer/installers": "^1.9",
     "wp-cli/wp-cli-bundle": "^2.4",
     "agiledrop/wordpress-ad-theme": "dev-dev",
-    "agiledrop/agiledrop-form": "dev-master"
+    "agiledrop/agiledrop-form": "dev-master",
+    "wpackagist-plugin/wordfence": "^7.4"
   },
   "require-dev": {
     "teamdeeson/docker-proxy": "^1.0"
@@ -75,20 +76,14 @@
     }
   },
   "scripts": {
-    "pre-package-install": [
-      "bash composerScripts/preInstall.sh"
+    "post-install-cmd": [
+      "bash composerScripts/postInstallCmd.sh"
     ],
     "post-package-install": [
-      "bash composerScripts/postInstall.sh"
-    ],
-    "pre-package-uninstall": [
-      "bash composerScripts/preUninstall.sh"
+      "bash composerScripts/postInstallPackage.sh"
     ],
     "post-package-uninstall": [
-      "bash composerScripts/postUninstall.sh"
-    ],
-    "watch": [
-      "bash composerScripts/watchChanges.sh"
+      "bash composerScripts/postUninstallPackage.sh"
     ]
   }
 }

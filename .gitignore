@@ -8,6 +8,7 @@ vendor/
 
 # ignore composer installed themes and plugins
 contrib/
+temp/
 
 # ignore log files and databases
 *.log
