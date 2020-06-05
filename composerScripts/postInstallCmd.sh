@@ -24,24 +24,24 @@ fi
 if $wpPluginDir ; then
   rm -rf wp/wp-content/plugins/*
   touch wp/wp-content/plugins/index.php
-  echo "<?php //Silence is golden" >> wp/wp-content/plugins/index.php
+  echo "<?php //Silence is golden" > wp/wp-content/plugins/index.php
 fi
 
 #Remove default themes
 if $wpThemeDir ; then
   rm -rf wp/wp-content/themes/*
   touch wp/wp-content/themes/index.php
-  echo "<?php //Silence is golden" >> wp/wp-content/plugins/index.php
+  echo "<?php //Silence is golden" > wp/wp-content/plugins/index.php
 fi
 
 #Copy contrib to core
 if $conPluginDir ; then
   echo "Copy contrib plugins to core."
-  cp -r contrib/plugins/* wp/wp-content/plugins
+  cp -R contrib/plugins/* wp/wp-content/plugins
 fi
 if $conThemeDir ; then
   echo "Copy contrib themes to core."
-  cp -r contrib/themes/* wp/wp-content/themes
+  cp -R contrib/themes/* wp/wp-content/themes
 fi
 
 
