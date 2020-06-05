@@ -7,7 +7,8 @@ if [ -d "contrib/plugins" ] && [ -d "wp/wp-content/plugins" ]; then
   installedPlugin=$(ls -ltr | tail -1 | grep -o '[^ ]*$')
   cd ..
   cd ..
-  cp -ru contrib/plugins/$installedPlugin wp/wp-content/plugins/
+  echo "Copy added plugin to core."
+  cp -r contrib/plugins/$installedPlugin wp/wp-content/plugins/
 fi
 
 if [ -d "contrib/themes" ] && [ -d "wp/wp-content/themes" ]; then
@@ -15,5 +16,6 @@ if [ -d "contrib/themes" ] && [ -d "wp/wp-content/themes" ]; then
   installedTheme=$(ls -ltr | tail -1 | grep -o '[^ ]*$')
   cd ..
   cd ..
-  cp -ru contrib/themes/$installedTheme wp/wp-content/themes/
+  echo "Copy added theme to core."
+  cp -r contrib/themes/$installedTheme wp/wp-content/themes/
 fi

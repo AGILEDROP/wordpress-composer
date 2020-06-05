@@ -36,10 +36,12 @@ fi
 
 #Copy contrib to core
 if $conPluginDir ; then
-  cp -ru contrib/plugins/* wp/wp-content/plugins
+  echo "Copy contrib plugins to core."
+  cp -r contrib/plugins/* wp/wp-content/plugins
 fi
 if $conThemeDir ; then
-  cp -ru contrib/themes/* wp/wp-content/themes
+  echo "Copy contrib themes to core."
+  cp -r contrib/themes/* wp/wp-content/themes
 fi
 
 
