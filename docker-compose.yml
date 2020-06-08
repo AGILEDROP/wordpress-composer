@@ -80,6 +80,15 @@ services:
       - agiledrop
       - default
 
+  watcher:
+    image: coppit/inotify-command
+    restart: unless-stopped
+    container_name: ${PROJECT_NAME}_watcher
+    volumes:
+      - ./custom/plugins:/dir1
+      - ./wp/wp-content/plugins:/var/plugins
+      - ./config:/config
+
 networks:
   default:
   agiledrop:
