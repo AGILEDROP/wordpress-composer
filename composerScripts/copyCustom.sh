@@ -32,20 +32,17 @@ fi
 #Get all custom plugins
 customPlugins=()
 if [ -d "/dir1" ]; then
-  for plugin in $(ls -d /dir1/*)
-  do
-    customPlugins+=("${plugin//\/dir1\/}")
-  done
+  subDir=`find /dir1/ -maxdepth 1 -type d | wc -l`
+  if [ $subDir -gt 1 ]; then
+    for plugin in $(ls -d /dir1/*)
+    do
+      customPlugins+=("${plugin//\/dir1\/}")
+    done
+  fi
 fi
 
 #Check if user deleted custom plugin
 deletedPlugins=${corePlugins[@]}
-
-echo "Before loop"
-for a in "${deletedPlugins[@]}"
-do
-  echo "$a"
-done
 
 for del in "${contribPlugins[@]}"
 do
@@ -61,10 +58,10 @@ do
   fi
 done
 
-echo "After loop"
-for a in "${deletedPlugins[@]}"
+#Delete custom plugins from core
+for del in "${deletedPlugins[@]}"
 do
-  echo "$a"
+  cd /var/plugins
+  rm -rf $del
 done
 
-#Delete custom plugins from core
