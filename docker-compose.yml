@@ -88,6 +88,8 @@ services:
       - ./custom/plugins:/dir1
       - ./wp/wp-content/plugins:/var/plugins
       - ./config:/config
+      - ./composerScripts:/composerScripts
+      - ./contrib/plugins:/contrib/plugins
 
 networks:
   default:
