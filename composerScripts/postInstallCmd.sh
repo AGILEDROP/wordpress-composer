@@ -20,6 +20,12 @@ if [ ! -d "contrib/themes" ]; then
   conThemeDir=false
 fi
 
+#Check if custom exists
+cusPluginDir=true
+if [ ! -d "custom/plugins" ]; then
+  cusPluginDir=false
+fi
+
 #Remove default plugins
 if $wpPluginDir ; then
   rm -rf wp/wp-content/plugins/*
@@ -36,12 +42,13 @@ fi
 
 #Copy contrib to core
 if $conPluginDir ; then
-  echo "Copy contrib plugins to core."
   cp -R contrib/plugins/* wp/wp-content/plugins
 fi
 if $conThemeDir ; then
-  echo "Copy contrib themes to core."
   cp -R contrib/themes/* wp/wp-content/themes
 fi
 
-
+#Copy custom plugins to core
+if $cusPluginDir ; then
+  cp -R custom/plugins/* wp/wp-content/plugins
+fi
