@@ -19,7 +19,7 @@ osType="$(uname -s)"
 
 if [[ "$osType" == "Linux" ]]; then
   ifconfig lo:0 10.254.254.254
-elif [[ "$osType" == "Darwin" ]]; then
+else [[ "$osType" == "Darwin" ]]; then
   ifconfig lo0 alias 10.254.254.254
 fi
 
