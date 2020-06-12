@@ -50,5 +50,9 @@ fi
 
 #Copy custom plugins to core
 if $cusPluginDir ; then
-  cp -R custom/plugins/* wp/wp-content/plugins
+  subDirCount=`find custom/plugins/ -maxdepth 1 -type d | wc -l`
+  if [ $subDirCount -eq 2 ]; then
+    cp -R custom/plugins/* wp/wp-content/plugins
+  fi
 fi
+
