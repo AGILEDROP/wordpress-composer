@@ -5,12 +5,6 @@ cd ${script_path}
 
 composer install
 
-if [[ ! -e ./.certs ]]; then
-  mkdir ./.certs
-fi
-
-${script_path}/vendor/teamdeeson/docker-proxy/genlocalcrt.sh ./.certs
-
 if [[ -z "$(docker network ls | fgrep -i agiledrop)" ]]; then
   docker network create agiledrop
 fi
@@ -24,15 +18,9 @@ if [[ "$osType" == "Darwin" ]]; then
   ifconfig lo0 alias 10.254.254.254
 fi
 
-DOMAIN=$(echo "adwp.localhost")
-
-if [[ "$osType" == "Linux" ]]; then
-  sudo cp .certs/* /usr/local/share/ca-certificates/
-  sudo update-ca-certificates
-fi
-
-if [[ "$osType" == "Darwin" ]]; then
-  sudo security add-trusted-cert -d -r trustRoot -k "/Library/Keychains/System.keychain" ".certs/${DOMAIN}.crt"
-fi
+cp composerScripts/traefik.toml ${script_path}/vendor/teamdeeson/docker-proxy/traefik.toml
 
 docker-compose up -d
+
+echo  "Access site http://adwp.localhost"
+echo  "Access phpMyAdmin http://pma.adwp.localhost"

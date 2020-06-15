@@ -14,12 +14,12 @@ services:
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
       - ./vendor/teamdeeson/docker-proxy/traefik.toml:/traefik.toml
-      - ./.certs:/certs
     networks:
       - agiledrop
     labels:
       - 'traefik.frontend.rule=Host:monitor.localhost'
-      - 'traefik.port=8080'
+      - 'traefik.port=80'
+      - 'traefik.frontend.entryPoints=http'
 
   web:
     build: docker/web
