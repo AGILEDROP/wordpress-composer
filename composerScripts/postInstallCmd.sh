@@ -42,16 +42,22 @@ fi
 
 #Copy contrib to core
 if $conPluginDir ; then
-  cp -R contrib/plugins/* wp/wp-content/plugins
+  subDirCount=`find contrib/plugins -maxdepth 1 -type d | wc -l`
+  if [ $subDirCount -gt 1 ]; then
+    cp -R contrib/plugins/* wp/wp-content/plugins
+  fi
 fi
 if $conThemeDir ; then
-  cp -R contrib/themes/* wp/wp-content/themes
+  subDirCount=`find contrib/themes -maxdepth 1 -type d | wc -l`
+  if [ $subDirCount -gt 1 ]; then
+    cp -R contrib/themes/* wp/wp-content/themes
+  fi
 fi
 
 #Copy custom plugins to core
 if $cusPluginDir ; then
   subDirCount=`find custom/plugins/ -maxdepth 1 -type d | wc -l`
-  if [ $subDirCount -eq 2 ]; then
+  if [ $subDirCount -gt 1 ]; then
     cp -R custom/plugins/* wp/wp-content/plugins
   fi
 fi
