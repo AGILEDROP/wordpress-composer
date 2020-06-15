@@ -19,9 +19,12 @@ osType="$(uname -s)"
 
 if [[ "$osType" == "Linux" ]]; then
   ifconfig lo:0 10.254.254.254
-else [[ "$osType" == "Darwin" ]]; then
+fi
+if [[ "$osType" == "Darwin" ]]; then
   ifconfig lo0 alias 10.254.254.254
 fi
+
+DOMAIN=$(echo "adwp.localhost")
 
 if [[ "$osType" == "Linux" ]]; then
   sudo cp .certs/* /usr/local/share/ca-certificates/
@@ -29,7 +32,7 @@ if [[ "$osType" == "Linux" ]]; then
 fi
 
 if [[ "$osType" == "Darwin" ]]; then
-  sudo security add-trusted-cert -d -r trustRoot -k "/Library/Keychains/System.keychain" ".certs/local.crt"
+  sudo security add-trusted-cert -d -r trustRoot -k "/Library/Keychains/System.keychain" ".certs/${DOMAIN}.crt"
 fi
 
 docker-compose up -d
