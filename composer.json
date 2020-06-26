@@ -21,20 +21,15 @@
   "repositories": [
     {
       "type": "composer",
-      "url": "https://packagist.org"
-    },
-    { "packagist": false },
-    {
-      "type": "composer",
       "url": "https://wpackagist.org"
     },
     {
       "type": "vcs",
-      "url": "git@bitbucket.org:agiledrop/wordpress-ad-theme.git"
+      "url": "https://bitbucket.org/agiledrop/wordpress-ad-theme.git"
     },
     {
       "type": "vcs",
-      "url": "git@bitbucket.org:zkoracin/agiledrop-form.git"
+      "url": "https://bitbucket.org/agiledrop/agiledrop-form.git"
     },
     {
       "type": "package",
@@ -49,6 +44,11 @@
       }
     }
   ],
+  "autoload": {
+    "psr-4": {
+      "AgiledropComposer\\": "scripts/AgiledropComposer"
+    }
+  },
   "require": {
     "php": ">=7.1",
     "johnpbloch/wordpress": "^5.4",
@@ -56,7 +56,9 @@
     "wp-cli/wp-cli-bundle": "^2.4",
     "agiledrop/wordpress-ad-theme": "dev-dev",
     "agiledrop/agiledrop-form": "dev-master",
-    "wpackagist-plugin/wordfence": "^7.4"
+    "wpackagist-plugin/wordfence": "^7.4",
+    "wpackagist-theme/twentytwenty": "^1.4",
+    "wpackagist-theme/twentynineteen": "^1.6"
   },
   "require-dev": {
     "teamdeeson/docker-proxy": "^1.0"
@@ -77,13 +79,13 @@
   },
   "scripts": {
     "post-install-cmd": [
-      "bash composerScripts/postInstallCmd.sh"
+      "AgiledropComposer\\Installer::postInstall"
     ],
     "post-package-install": [
-      "bash composerScripts/postInstallPackage.sh"
+      "AgiledropComposer\\Installer::postPackageInstall"
     ],
     "post-package-uninstall": [
-      "bash composerScripts/postUninstallPackage.sh"
+      "AgiledropComposer\\Installer::postPackageUninstall"
     ]
   }
 }

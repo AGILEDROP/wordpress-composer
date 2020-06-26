@@ -1,18 +1,24 @@
 {
     "_readme": [
         "This file locks the dependencies of your project to a known state",
-        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
+        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "5cb8653b16a736ee7addb9a3c777e3e5",
+    "content-hash": "96a85edd845281adf8e4171342ca94bf",
     "packages": [
         {
             "name": "agiledrop/agiledrop-form",
             "version": "dev-master",
             "source": {
                 "type": "git",
-                "url": "git@bitbucket.org:zkoracin/agiledrop-form.git",
+                "url": "https://bitbucket.org/agiledrop/agiledrop-form.git",
                 "reference": "427aa612c5f122c17968eea4419ddf62458ca69c"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://bitbucket.org/agiledrop/agiledrop-form/get/427aa612c5f122c17968eea4419ddf62458ca69c.zip",
+                "reference": "427aa612c5f122c17968eea4419ddf62458ca69c",
+                "shasum": ""
             },
             "require": {
                 "composer/installers": "^1.0",
@@ -50,8 +56,14 @@
             "version": "dev-dev",
             "source": {
                 "type": "git",
-                "url": "git@bitbucket.org:agiledrop/wordpress-ad-theme.git",
+                "url": "https://bitbucket.org/agiledrop/wordpress-ad-theme.git",
                 "reference": "f8e35f6b86687b4a38cbca45f1fb106e90834ce7"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://bitbucket.org/agiledrop/wordpress-ad-theme/get/f8e35f6b86687b4a38cbca45f1fb106e90834ce7.zip",
+                "reference": "f8e35f6b86687b4a38cbca45f1fb106e90834ce7",
+                "shasum": ""
             },
             "require": {
                 "agiledrop/agiledrop-form": "*",
@@ -4002,15 +4014,49 @@
             },
             "dist": {
                 "type": "zip",
-                "url": "https://downloads.wordpress.org/plugin/wordfence.7.4.7.zip",
-                "reference": null,
-                "shasum": null
+                "url": "https://downloads.wordpress.org/plugin/wordfence.7.4.7.zip"
             },
             "require": {
                 "composer/installers": "~1.0"
             },
             "type": "wordpress-plugin",
             "homepage": "https://wordpress.org/plugins/wordfence/"
+        },
+        {
+            "name": "wpackagist-theme/twentynineteen",
+            "version": "1.6",
+            "source": {
+                "type": "svn",
+                "url": "https://themes.svn.wordpress.org/twentynineteen/",
+                "reference": "1.6"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://downloads.wordpress.org/theme/twentynineteen.1.6.zip"
+            },
+            "require": {
+                "composer/installers": "~1.0"
+            },
+            "type": "wordpress-theme",
+            "homepage": "https://wordpress.org/themes/twentynineteen/"
+        },
+        {
+            "name": "wpackagist-theme/twentytwenty",
+            "version": "1.4",
+            "source": {
+                "type": "svn",
+                "url": "https://themes.svn.wordpress.org/twentytwenty/",
+                "reference": "1.4"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://downloads.wordpress.org/theme/twentytwenty.1.4.zip"
+            },
+            "require": {
+                "composer/installers": "~1.0"
+            },
+            "type": "wordpress-theme",
+            "homepage": "https://wordpress.org/themes/twentytwenty/"
         }
     ],
     "packages-dev": [
@@ -4036,5 +4082,6 @@
     "platform": {
         "php": ">=7.1"
     },
-    "platform-dev": []
+    "platform-dev": [],
+    "plugin-api-version": "1.1.0"
 }
