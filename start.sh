@@ -24,8 +24,6 @@ if [[ "$osType" == "Darwin" ]]; then
   sudo ifconfig lo0 alias 10.254.254.254
 fi
 
-cp composerScripts/traefik.toml ${script_path}/vendor/teamdeeson/docker-proxy/traefik.toml
-
 docker-compose up -d
 
 echo  "Access site http://adwp.localhost"

@@ -53,11 +53,43 @@ class Installer {
     }
 
     public static function postPackageInstall(PackageEvent $event) {
-        $test = null;
+    	$fullName = $event->getOperation()->getPackage()->getName();
+    	$nameExplode = explode( '/', $fullName );
+    	$fs = new Filesystem();
+
+	    $rootDirectory = dirname($event->getComposer()->getConfig()->getConfigSource()->getName());
+
+    	if ( $nameExplode[0] === 'wpackagist-plugin' ) {
+		    $pluginDirectory = $rootDirectory . '/contrib/plugins/' . $nameExplode[1];
+		    $corePluginDir = $rootDirectory . '/wp/wp-content/plugins/' . $nameExplode[1];
+    	    echo "Copying plugin " . $nameExplode[1] . " to the wpcore";
+		    $fs->copy( $pluginDirectory, $corePluginDir);
+	    }
+    	if ( $nameExplode[0] === 'wpackagist-theme' ) {
+		    $themeDirectory = $rootDirectory . '/contrib/themes/' . $nameExplode[1];
+		    $coreThemeDir = $rootDirectory . '/wp/wp-content/themes/' . $nameExplode[1];
+    		echo "Copying theme " . $nameExplode[1] . " to the wpcore";
+    		$fs->copy( $themeDirectory, $coreThemeDir );
+	    }
     }
 
     public static function postPackageUninstall(PackageEvent $event) {
-        $test = null;
+	    $fullName = $event->getOperation()->getPackage()->getName();
+	    $nameExplode = explode( '/', $fullName );
+	    $fs = new Filesystem();
+
+	    $rootDirectory = dirname($event->getComposer()->getConfig()->getConfigSource()->getName());
+
+	    if ( $nameExplode[0] === 'wpackagist-plugin' ) {
+		    $corePluginDir = $rootDirectory . '/wp/wp-content/plugins/' . $nameExplode[1];
+		    echo "Removing plugin " . $nameExplode[1] . " from the wpcore";
+		    $fs->remove( $corePluginDir);
+	    }
+	    if ( $nameExplode[0] === 'wpackagist-theme' ) {
+		    $coreThemeDir = $rootDirectory . '/wp/wp-content/themes/' . $nameExplode[1];
+		    echo "Removing theme " . $nameExplode[1] . " from the wpcore";
+		    $fs->remove( $coreThemeDir );
+	    }
     }
 
     protected static function emptyDirectory(Filesystem $fs, $dir, $ensureDirectoryExists = true)
