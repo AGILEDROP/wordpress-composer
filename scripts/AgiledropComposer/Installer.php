@@ -52,44 +52,41 @@ class Installer {
         $fs->remove($rootDirectory . '/' . $wpDir . '/' . 'wp-content/mu-plugins/.gitkeep');
     }
 
-    public static function postPackageInstall(PackageEvent $event) {
-    	$fullName = $event->getOperation()->getPackage()->getName();
-    	$nameExplode = explode( '/', $fullName );
+    private function handlePackage($rootDir, $package, $operation) {
     	$fs = new Filesystem();
+    	$packageSplit = explode('/', $package);
+		if ($packageSplit[0] === 'wpackagist-plugin') {
+			$pluginDir = $rootDir . '/contrib/plugins/' . $packageSplit[1];
+			$corePluginDir = $rootDir . '/wp/wp-content/plugins/' . $packageSplit[1];
+			if ($operation === 'copy') {
+				$fs->copy($pluginDir, $corePluginDir);
+			}
+			if ($operation === 'delete') {
+				$fs->remove($corePluginDir);
+			}
+		}
+		if ($packageSplit[0] === 'wpackagist-theme') {
+			$themeDir = $rootDir . '/contrib/themes/' . $packageSplit[1];
+			$coreThemeDir = $rootDir . '/wp/wp-content/themes/' . $packageSplit[1];
+			if ($operation === 'copy') {
+				$fs->copy($themeDir, $coreThemeDir);
+			}
+			if ($operation === 'delete') {
+				$fs->remove($coreThemeDir);
+			}
+		}
+    }
 
+    public static function postPackageInstall(PackageEvent $event) {
+    	$package = $event->getOperation()->getPackage()->getName();
 	    $rootDirectory = dirname($event->getComposer()->getConfig()->getConfigSource()->getName());
-
-    	if ( $nameExplode[0] === 'wpackagist-plugin' ) {
-		    $pluginDirectory = $rootDirectory . '/contrib/plugins/' . $nameExplode[1];
-		    $corePluginDir = $rootDirectory . '/wp/wp-content/plugins/' . $nameExplode[1];
-    	    echo "Copying plugin " . $nameExplode[1] . " to the wpcore";
-		    $fs->copy( $pluginDirectory, $corePluginDir);
-	    }
-    	if ( $nameExplode[0] === 'wpackagist-theme' ) {
-		    $themeDirectory = $rootDirectory . '/contrib/themes/' . $nameExplode[1];
-		    $coreThemeDir = $rootDirectory . '/wp/wp-content/themes/' . $nameExplode[1];
-    		echo "Copying theme " . $nameExplode[1] . " to the wpcore";
-    		$fs->copy( $themeDirectory, $coreThemeDir );
-	    }
+	    self::handlePackage($rootDirectory, $package, 'copy');
     }
 
     public static function postPackageUninstall(PackageEvent $event) {
-	    $fullName = $event->getOperation()->getPackage()->getName();
-	    $nameExplode = explode( '/', $fullName );
-	    $fs = new Filesystem();
-
+	    $package = $event->getOperation()->getPackage()->getName();
 	    $rootDirectory = dirname($event->getComposer()->getConfig()->getConfigSource()->getName());
-
-	    if ( $nameExplode[0] === 'wpackagist-plugin' ) {
-		    $corePluginDir = $rootDirectory . '/wp/wp-content/plugins/' . $nameExplode[1];
-		    echo "Removing plugin " . $nameExplode[1] . " from the wpcore";
-		    $fs->remove( $corePluginDir);
-	    }
-	    if ( $nameExplode[0] === 'wpackagist-theme' ) {
-		    $coreThemeDir = $rootDirectory . '/wp/wp-content/themes/' . $nameExplode[1];
-		    echo "Removing theme " . $nameExplode[1] . " from the wpcore";
-		    $fs->remove( $coreThemeDir );
-	    }
+	    self::handlePackage($rootDirectory, $package, 'delete');
     }
 
     protected static function emptyDirectory(Filesystem $fs, $dir, $ensureDirectoryExists = true)
