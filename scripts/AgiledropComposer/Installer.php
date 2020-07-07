@@ -80,13 +80,55 @@ class Installer {
     public static function postPackageInstall(PackageEvent $event) {
     	$package = $event->getOperation()->getPackage()->getName();
 	    $rootDirectory = dirname($event->getComposer()->getConfig()->getConfigSource()->getName());
-	    self::handlePackage($rootDirectory, $package, 'copy');
+	    (new Installer)->handlePackage($rootDirectory, $package, 'copy');
     }
 
     public static function postPackageUninstall(PackageEvent $event) {
 	    $package = $event->getOperation()->getPackage()->getName();
 	    $rootDirectory = dirname($event->getComposer()->getConfig()->getConfigSource()->getName());
-	    self::handlePackage($rootDirectory, $package, 'delete');
+	    (new Installer)->handlePackage($rootDirectory, $package, 'delete');
+    }
+
+    private function getDirectories($directory) {
+    	$directories = [];
+	    if ($handle = opendir($directory)) {
+		    while (false !== ($entry = readdir($handle))) {
+			    $directories[] = $entry;
+		    }
+		    closedir($handle);
+	    }
+	    return array_diff($directories, ['.', '..', '.gitkeep']);
+    }
+
+    private function copyDirectories($fs, $directories, $fromPath, $toPath) {
+	    foreach ($directories as $directory) {
+		    $fs->copy($fromPath . '/' . $directory , $toPath . '/' . $directory);
+	    }
+    }
+
+    public static function postUpdate(Event $event) {
+	    $rootDirectory = dirname($event->getComposer()->getConfig()->getConfigSource()->getName());
+
+	    $pluginDir = $rootDirectory . '/contrib/plugins';
+	    $customPluginDir = $rootDirectory . '/custom/plugins';
+	    $themeDir = $rootDirectory . '/contrib/themes';
+	    $customThemeDir = $rootDirectory . '/custom/themes';
+	    $pluginCoreDir = $rootDirectory . '/wp/wp-content/plugins/';
+	    $themeCoreDir = $rootDirectory . '/wp/wp-content/themes/';
+
+	    $installer = new Installer();
+	    $plugins = $installer->getDirectories($pluginDir);
+	    $themes = $installer->getDirectories($themeDir);
+	    $customPlugins = $installer->getDirectories($customPluginDir);
+	    $customThemes = $installer->getDirectories($customThemeDir);
+
+	    $fs = new Filesystem();
+		$fs->remove($pluginCoreDir);
+		$fs->remove($themeCoreDir);
+	    $installer->copyDirectories($fs, $plugins, $pluginDir, $pluginCoreDir);
+	    $installer->copyDirectories($fs, $themes, $themeDir, $themeCoreDir);
+	    $installer->copyDirectories($fs, $customPlugins, $customPluginDir, $pluginCoreDir);
+	    $installer->copyDirectories($fs, $customThemes, $customThemeDir, $themeCoreDir);
     }
 
     protected static function emptyDirectory(Filesystem $fs, $dir, $ensureDirectoryExists = true)

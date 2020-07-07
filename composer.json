@@ -56,9 +56,9 @@
     "wp-cli/wp-cli-bundle": "^2.4",
     "agiledrop/wordpress-ad-theme": "dev-dev",
     "agiledrop/agiledrop-form": "dev-master",
-    "wpackagist-plugin/wordfence": "^7.4",
     "wpackagist-theme/twentytwenty": "^1.4",
-    "wpackagist-theme/twentynineteen": "^1.6"
+    "wpackagist-theme/twentynineteen": "^1.6",
+    "wpackagist-plugin/wordfence": "^7.4"
   },
   "require-dev": {
     "teamdeeson/docker-proxy": "^1.0"
@@ -86,6 +86,9 @@
     ],
     "post-package-uninstall": [
       "AgiledropComposer\\Installer::postPackageUninstall"
+    ],
+    "post-update-cmd": [
+      "AgiledropComposer\\Installer::postUpdate"
     ]
   }
 }
