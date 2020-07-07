@@ -86,10 +86,13 @@ services:
     container_name: ${PROJECT_NAME}_watcher
     volumes:
       - ./custom/plugins:/dir1
+      - ./custom/themes:/dir2
       - ./wp/wp-content/plugins:/var/plugins
+      - ./wp/wp-content/themes:/var/themes
       - ./config:/config
       - ./composerScripts:/composerScripts
       - ./contrib/plugins:/contrib/plugins
+      - ./contrib/themes:/contrib/themes
 
 networks:
   default:
