@@ -52,12 +52,12 @@ class Installer {
         $fs->remove($rootDirectory . '/' . $wpDir . '/' . 'wp-content/mu-plugins/.gitkeep');
     }
 
-    private function handlePackage($rootDir, $package, $operation) {
+    private function handlePackage($rootDir, $wpDir, $package, $operation) {
     	$fs = new Filesystem();
     	$packageSplit = explode('/', $package);
 		if ($packageSplit[0] === 'wpackagist-plugin') {
 			$pluginDir = $rootDir . '/contrib/plugins/' . $packageSplit[1];
-			$corePluginDir = $rootDir . '/wp/wp-content/plugins/' . $packageSplit[1];
+			$corePluginDir = $rootDir . '/' . $wpDir . '/wp-content/plugins/' . $packageSplit[1];
 			if ($operation === 'copy') {
 				$fs->copy($pluginDir, $corePluginDir);
 			}
@@ -67,7 +67,7 @@ class Installer {
 		}
 		if ($packageSplit[0] === 'wpackagist-theme') {
 			$themeDir = $rootDir . '/contrib/themes/' . $packageSplit[1];
-			$coreThemeDir = $rootDir . '/wp/wp-content/themes/' . $packageSplit[1];
+			$coreThemeDir = $rootDir . '/' . $wpDir . '/wp-content/themes/' . $packageSplit[1];
 			if ($operation === 'copy') {
 				$fs->copy($themeDir, $coreThemeDir);
 			}
@@ -78,15 +78,29 @@ class Installer {
     }
 
     public static function postPackageInstall(PackageEvent $event) {
+        $packageExtra = $event->getComposer()->getPackage()->getExtra();
+        if (empty($packageExtra['wordpress-install-dir'])) {
+            $event->getIO()->writeError('Variable "wordpress-install-dir" is not defined in composer.json! Aborting installation.');
+            return null;
+        }
+        $wpDir = $packageExtra['wordpress-install-dir'];
+
     	$package = $event->getOperation()->getPackage()->getName();
 	    $rootDirectory = dirname($event->getComposer()->getConfig()->getConfigSource()->getName());
-	    (new Installer)->handlePackage($rootDirectory, $package, 'copy');
+	    (new Installer)->handlePackage($rootDirectory, $wpDir, $package, 'copy');
     }
 
     public static function postPackageUninstall(PackageEvent $event) {
+        $packageExtra = $event->getComposer()->getPackage()->getExtra();
+        if (empty($packageExtra['wordpress-install-dir'])) {
+            $event->getIO()->writeError('Variable "wordpress-install-dir" is not defined in composer.json! Aborting installation.');
+            return null;
+        }
+        $wpDir = $packageExtra['wordpress-install-dir'];
+
 	    $package = $event->getOperation()->getPackage()->getName();
 	    $rootDirectory = dirname($event->getComposer()->getConfig()->getConfigSource()->getName());
-	    (new Installer)->handlePackage($rootDirectory, $package, 'delete');
+	    (new Installer)->handlePackage($rootDirectory, $wpDir, $package, 'delete');
     }
 
     private function getDirectories($directory) {
@@ -107,14 +121,20 @@ class Installer {
     }
 
     public static function postUpdate(Event $event) {
+        $packageExtra = $event->getComposer()->getPackage()->getExtra();
+        if (empty($packageExtra['wordpress-install-dir'])) {
+            $event->getIO()->writeError('Variable "wordpress-install-dir" is not defined in composer.json! Aborting installation.');
+            return null;
+        }
+        $wpDir = $packageExtra['wordpress-install-dir'];
 	    $rootDirectory = dirname($event->getComposer()->getConfig()->getConfigSource()->getName());
 
 	    $pluginDir = $rootDirectory . '/contrib/plugins';
 	    $customPluginDir = $rootDirectory . '/custom/plugins';
 	    $themeDir = $rootDirectory . '/contrib/themes';
 	    $customThemeDir = $rootDirectory . '/custom/themes';
-	    $pluginCoreDir = $rootDirectory . '/wp/wp-content/plugins/';
-	    $themeCoreDir = $rootDirectory . '/wp/wp-content/themes/';
+	    $pluginCoreDir = $rootDirectory . '/' . $wpDir . '/wp-content/plugins/';
+	    $themeCoreDir = $rootDirectory . '/' . $wpDir . '/wp-content/themes/';
 
 	    $installer = new Installer();
 	    $plugins = $installer->getDirectories($pluginDir);
