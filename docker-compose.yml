@@ -45,7 +45,11 @@ services:
       MYSQL_DATABASE: ${WP_DB_NAME}
       MYSQL_USER: ${WP_DB_USER}
       MYSQL_PASSWORD: ${WP_DB_PASS}
-    command: ['mysqld', '--character-set-server=${WP_DB_CHARSET}', '--collation-server=${WP_DB_COLLATE}']
+    command: [
+      'mysqld',
+      '--character-set-server=${WP_DB_CHARSET}',
+      '--collation-server=${WP_DB_COLLATE}'
+    ]
     ports:
       - "${WP_DB_PORT}:3306"
     volumes:
@@ -90,7 +94,7 @@ services:
       - ./wp/wp-content/plugins:/var/plugins
       - ./wp/wp-content/themes:/var/themes
       - ./config:/config
-      - ./composerScripts:/composerScripts
+      - ./scripts:/scripts
       - ./contrib/plugins:/contrib/plugins
       - ./contrib/themes:/contrib/themes
 
