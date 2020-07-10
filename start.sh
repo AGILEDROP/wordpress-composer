@@ -26,5 +26,9 @@ fi
 
 docker-compose up -d
 
-echo  "Access site http://adwp.localhost"
-echo  "Access phpMyAdmin http://pma.adwp.localhost"
+set -a
+[[ -f .env ]] && . .env
+set +a
+
+echo  "Access site http://$PROJECT_HOSTNAME"
+echo  "Access phpMyAdmin http://pma.$PROJECT_HOSTNAME"
