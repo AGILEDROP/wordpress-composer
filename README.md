@@ -50,3 +50,24 @@ via ssh and run the following commands:
 * `./install-no-docker.sh`
 
 Access the website from the link that is outputted at the end of installation.
+
+## Folder structure
+wp directory - wordpress core installation.
+contrib directory - location for plugins and themes added with composer.
+custom directory - location for custom plugin and theme development. 
+docker directory - docker config.
+scripts directory - composer scripts for package management.  
+config directory - configuration for docker watcher.
+
+## Plugins and themes management.
+You can add a new plugin/theme with a composer. The package will be located in contrib folder,
+and automatically copied to the wp/wp-content. To add new package run the following command with package name:
+* `composer require name-of-the-package`
+
+When removing a package, the package will be deleted from wp/wp-content and from contrib folder.
+To remove package use:
+* `composer remove name-of-the-package`
+
+When developing your custom plugin/theme create a directory with the name of your plugin in the custom directory. 
+The plugin will be copied to wp/wp-content/. We set docker watcher, to watch for changes in the custom directory,
+so all the changes that you make in your plugin will be updated.
